@@ -1,0 +1,35 @@
+{
+  "name": "todo.app",
+  "version": "1.0.0",
+  "description": "Todo App Basic API's using Node.js",
+  "type" : "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faizandarwesh/todoApp-Node.js.git"
+  },
+  "keywords": [
+    "Node",
+    "Javascript",
+    "API",
+    "express",
+    "mongoDB",
+    "DB",
+    "backend"
+  ],
+  "author": "Faizan Darwesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/faizandarwesh/todoApp-Node.js/issues"
+  },
+  "homepage": "https://github.com/faizandarwesh/todoApp-Node.js#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.0"
+  }
+}
