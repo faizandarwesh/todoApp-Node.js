@@ -2,10 +2,11 @@
   "name": "todo.app",
   "version": "1.0.0",
   "description": "Todo App Basic API's using Node.js",
-  "type" : "module",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "nodemon -r dotenv/config --experimental-json-modules index.js"
   },
   "repository": {
     "type": "git",
@@ -31,5 +32,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^8.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
