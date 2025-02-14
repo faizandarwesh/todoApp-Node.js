@@ -1,7 +1,3 @@
-Here's a **simplified README.md** for your Node.js Todo API:  
-
----
-
 # 📝 Todo API - Node.js Learning Project  
 
 A simple **REST API** for managing todos, built with **Node.js, Express, and MongoDB Atlas**.  
