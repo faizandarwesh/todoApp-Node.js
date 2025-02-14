@@ -1,18 +1,6 @@
 import Todo from "../models/todos.model.js";
 import mongoose from "mongoose";
 
-/**
- * TODO
- * 1. Keys needs to be consistent across all the endpoints
- * For example somewhere i use message and somewhere i used error
- * which is inconsistent
- * Delete nahi hoto message change krna hai
- * Result null arha tha
- * Extra fields hatani hen
- *
- *
- */
-
 export const createTodo = async (req, res) => {
   const { title } = req.body;
 
@@ -129,9 +117,6 @@ export const updateTodoById = async (req, res) => {
     const { id } = req.params;
     const {title} = req.body;
 
-    console.log("Title payload :",title);
-    console.log("Id payload :",id);
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({ message: "Invalid ID Format" });
     }
@@ -140,12 +125,10 @@ export const updateTodoById = async (req, res) => {
       { _id: id },
       { title },
       {
-        new: true,
-        runValidators: true,
+        new: true, // Return the updated document
+        runValidators: true, // Run schema validators on update
       }
     );
-    
-    console.log(`Updated Todo : `,updatedTodo);
 
     if(!updatedTodo){
       return res.status(404).json({message : "No record found for the specific ID"});
