@@ -13,7 +13,7 @@ const router = express.Router();
 router.post("/add", createTodo);
 router.get("/list", getAllTodos);
 router.get("/:id", getTodoById);
-router.put(":id", updateTodoById);
+router.put("/:id", updateTodoById);
 router.delete("/:id", deleteTodoById);
 router.delete("/", deleteAllTodos);
 

@@ -126,13 +126,33 @@ export const deleteTodoById = async (req, res) => {
 
 export const updateTodoById = async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const { id } = req.params;
+    const {title} = req.body;
+
+    console.log("Title payload :",title);
+    console.log("Id payload :",id);
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({ message: "Invalid ID Format" });
     }
 
-    const todo = await Todo.findById(id);
+    const updatedTodo = await Todo.findOneAndUpdate(
+      { _id: id },
+      { title },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    
+    console.log(`Updated Todo : `,updatedTodo);
+
+    if(!updatedTodo){
+      return res.status(404).json({message : "No record found for the specific ID"});
+    }
+
+    res.status(200).json({message : "Todo updated successfully",result : updatedTodo});
+
   } catch (error) {
     console.error(`[updateTodoById] Error: ${error.message}`, error);
     res.status(500).json({
