@@ -1,134 +1,142 @@
-import { json } from "express";
 import Todo from "../models/todos.model.js";
 import mongoose from "mongoose";
 
-export const createTodo = async (req, res) => {
-  console.log(`Request body : `, req.body);
+/**
+ * TODO
+ * 1. Keys needs to be consistent across all the endpoints
+ * For example somewhere i use message and somewhere i used error
+ * which is inconsistent
+ * Delete nahi hoto message change krna hai
+ * Result null arha tha
+ * Extra fields hatani hen
+ *
+ *
+ */
 
+export const createTodo = async (req, res) => {
   const { title } = req.body;
 
-  console.log(`Title : ${title}`);
-
   if (!title) {
-    return res.status(400).json({ error: "Title field is required" });
+    return res.status(400).json({ message: "Title field is required" });
+  }
+
+  if (typeof title !== "string") {
+    return res.status(400).json({ message: "Title needs to be string value" });
   }
 
   try {
     const todo = new Todo({ title });
     await todo.save();
 
-    res.status(201).json(todo);
+    res
+      .status(200)
+      .json({ message: "Todo created successfully", result: todo });
   } catch (error) {
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
 export const getAllTodos = async (req, res) => {
+
   try {
-    const todos = await Todo.find().sort({ createdAt: -1 });
-    console.log(`getAllTodos : ${todos}`);  
-    if(todos.length == 0){
-      return res.status(200).json({message : "No todos found"});
+    const todos = await Todo.find()
+      .sort({ createdAt: -1 })
+      .select(" -createdAt -updatedAt");
+
+    if (todos.length == 0) {
+      return res.status(200).json({ message: "No todos found", result: todos });
     }
 
-    res.status(200).json({message : "Todos found",todos});
+    res.status(200).json({ message: "Todos found", result: todos });
   } catch (error) {
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
 export const getTodoById = async (req, res) => {
-  //If somethings comes in URL it is called params need to handle like req.params
-  //If somethings came from body/payload need to handle like req.body
+
   const { id } = req.params;
 
-
-  //This code snippet is checking the type of id
-  //Because in mongo db we don't need to specify id 
-  //It will auto generate it and the type of id is ObjectId 
-  //So we need to make sure the type of id we receive from params 
-  // also the same not string or integer
+  //To validate id type
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "Invalid ID format" });
+    return res.status(400).json({ message: "Invalid ID format" });
   }
 
-  console.log("Todo Id : ", id);
-
-  const todo = await Todo.findById(id);
-  console.log("Todo Object", todo);
+  //To fetch record from DB and eliminate createdAt and updatedAt keys from object
+  const todo = await Todo.findById(id).select("-createdAt -updatedAt");
 
   if (!todo) {
-    res.status(404).json({ error: "No record found for the specific Id" });
+    return res
+      .status(404)
+      .json({ message: "No record found for the specific ID" });
   }
 
   try {
-    res.status(200).json(todo);
+    res.status(200).json({ message: "Todo found", result: todo });
   } catch (error) {
-
     console.error(`[getTodoById] Error: ${error.message}`, error);
     res.status(500).json({
-      error: "Internal Server Error",
+      message: "Internal Server Error",
     });
   }
 };
 
-export const deleteAllTodos = async(req,res) => {
-
-  try{
+export const deleteAllTodos = async (req, res) => {
+  try {
     const result = await Todo.deleteMany({});
-    console.log(`deleteAllTodos : Result : ${result}`);
 
     // Extract the count of deleted documents
     const deletedCount = result.deletedCount;
 
-    res.status(200).json({message : "All Todos deleted successfully",deletedCount});
-  }catch(error){
+    res
+      .status(200)
+      .json({ message: "All Todos deleted successfully", deletedCount });
+  } catch (error) {
     console.error(`[deleteAllTodos] Error: ${error.message}`, error);
     res.status(500).json({
-      error: "Internal Server Error",
+      message: "Internal Server Error",
     });
   }
-}
+};
 
-export const deleteTodoById = async(req,res) => {
-    try{
-      const {id} = req.params;
-      console.log("deleteTodoById Id : ",id);
+export const deleteTodoById = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-      if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error : "Invalid ID Format"})
-      }
-
-      const result = await Todo.findByIdAndDelete(id);
-      console.log('Todo Object : ',result);
-  
-      res.status(200).json({message : "Todo deleted successfully",result});
-
-    }catch(error){
-      console.error(`[deleteTodoById] Error: ${error.message}`, error);
-      res.status(500).json({
-        error: "Internal Server Error",
-      });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ message: "Invalid ID Format" });
     }
-}
 
-export const updateTodoById = async(req,res) => {
+    const result = await Todo.findByIdAndDelete(id);
+    
+    if(!result){
+      return res.status(404).json({message : "No record found for the specific ID"});
+    }
 
-  try{
-    const {id} = req.params.id;
+    res
+      .status(200)
+      .json({ message: "Todo deleted successfully", result: result });
+  } catch (error) {
+    console.error(`[deleteTodoById] Error: ${error.message}`, error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+};
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).json({error : "Invalid ID Format"})
+export const updateTodoById = async (req, res) => {
+  try {
+    const { id } = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ message: "Invalid ID Format" });
     }
 
     const todo = await Todo.findById(id);
-
-  
-  }catch(error){
+  } catch (error) {
     console.error(`[updateTodoById] Error: ${error.message}`, error);
     res.status(500).json({
-      error: "Internal Server Error",
+      message: "Internal Server Error",
     });
   }
-
-}
+};

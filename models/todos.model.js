@@ -11,7 +11,9 @@ const todoSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true,
+    versionKey: false // This removes `__v`
+   }
 );
 
 const Todo = mongoose.model('Todo',todoSchema);
