@@ -5,7 +5,7 @@ A simple **REST API** for managing todos, built with **Node.js, Express, and Mon
 ## 🚀 Features  
 ✅ Add a new todo  
 ✅ Get all todos  
-✅ Get a todo
+✅ Get a todo     
 ✅ Update a todo  
 ✅ Delete a todo  
 ✅ Delete all todos 
