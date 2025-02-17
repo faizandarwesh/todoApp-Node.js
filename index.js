@@ -25,5 +25,7 @@ databaseConnection()
 //Import Routes
 
 import todoRoutes from "./routes/todo.routes.js"
+import userRoutes from "./routes/user.routes.js";
 
-app.use('/api/todo',todoRoutes)
+app.use('/api/todo',todoRoutes);
+app.use('/api/users',userRoutes);
