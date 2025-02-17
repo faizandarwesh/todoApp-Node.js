@@ -5,9 +5,10 @@ import dotenv from "dotenv";
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
+    username: {
       type: String,
       trim: true,
+      unique : true,
       required: [true, "Full name field is required"],
     },
     email: {
@@ -36,7 +37,7 @@ const userSchema = new mongoose.Schema(
 //This pre hook will trigger just before mongoose save call
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
-    this.password = bcrypt.hash(password, 10);
+    this.password = await bcrypt.hash(this.password, 10);
     next(); //To give the call to the next immediate caller after the task executed by middleware
   }
 });
