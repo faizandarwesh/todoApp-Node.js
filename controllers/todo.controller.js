@@ -43,6 +43,7 @@ export const getAllTodos = async (req, res) => {
 
 export const getTodoById = async (req, res) => {
 
+  try {
   const { id } = req.params;
 
   //To validate id type
@@ -59,7 +60,7 @@ export const getTodoById = async (req, res) => {
       .json({ message: "No record found for the specific ID" });
   }
 
-  try {
+
     res.status(200).json({ message: "Todo found", result: todo });
   } catch (error) {
     console.error(`[getTodoById] Error: ${error.message}`, error);
