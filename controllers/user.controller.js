@@ -18,12 +18,6 @@ export const register = async (req, res) => {
 
     const { username, email, password } = req.body;
 
-    // if ([username, email, password].some((field) => field?.trim() === "")) {
-    //   return res.status(STATUS_CODES.BAD_REQUEST).json({
-    //     message: "Please fill the required fields",
-    //   });
-    // }
-
     const isUserExist = await User.findOne({
       $or: [
         {
