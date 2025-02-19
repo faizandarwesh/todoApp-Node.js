@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import app from "./app.js"
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import express from "express";
 import databaseConnection from "./database/connection.js";
 
@@ -12,6 +13,7 @@ dotenv.config({
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 databaseConnection()
 .then(()=>{

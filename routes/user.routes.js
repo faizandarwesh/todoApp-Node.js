@@ -4,7 +4,19 @@ import { body } from "express-validator";
 
 const router = express.Router();
 
-router.post("/login", login);
+router.post(
+  "/login",
+  [
+    body("email").isEmail().withMessage("Please enter a valid email address"),
+    body("password")
+      .notEmpty()
+      .withMessage("Password is required")
+      .isLength({ min: 6 })
+      .withMessage("Password must be atleast 6 characters long"),
+  ],
+  login
+);
+
 router.post(
   "/register",
   [
