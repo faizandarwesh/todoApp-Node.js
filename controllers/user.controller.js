@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { User } from "../models/user.model.js";
 import { STATUS_CODES } from "../constants.js";
 import { validationResult } from "express-validator";
+import cookieParser from "cookie-parser";
 
 const generateAccessandRefreshToken = async (userId) => {
   try {
@@ -24,6 +25,27 @@ const generateAccessandRefreshToken = async (userId) => {
   }
 };
 
+export const logout = async (req , res) => {
+  // Get user token from cookies or from headers (incase for mobile users)
+  // Check the user is authenticated
+  // Clear cookies
+  // Clear refresh and authentication tokens
+
+  await User.findByIdAndUpdate(req.user._id, { refreshToken: "" });
+
+  const options = {
+    httpOnly : true,
+    secure : true
+  }
+
+  return res.status(STATUS_CODES.SUCCESS)
+  .clearCookie("accessToken",options)
+  .clearCookie("refreshToken",options)
+  .json({
+    message : 'User logged out successfully'
+  })
+}
+
 export const login = async (req, res) => {
   //Server side Validation for email and password
   //Check the user in the database using email
@@ -45,19 +67,17 @@ export const login = async (req, res) => {
 
     const { email, password } = req.body;
     console.log(`User Email & Password  : ${email} -- ${password}`);
-    
 
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({
-        message: "User does not exists",
+        message: "Invalid user credentials",
       });
     }
 
     const isCorrect = await user.isPasswordCorrect(password);
     console.log(`User Password Status : ${isCorrect}`);
-
 
     if (!isCorrect) {
       return res.status(401).json({
@@ -88,7 +108,7 @@ export const login = async (req, res) => {
       .cookie("accessToken", accessToken, options)
       .cookie("refreshToken", refreshToken, options)
       .json({
-        "result" : loggedInUser,
+        user: loggedInUser,
         accessToken,
         refreshToken,
         message: "User logged in successfully",
@@ -102,6 +122,13 @@ export const login = async (req, res) => {
 };
 
 export const register = async (req, res) => {
+  //Server side Validation for username , email and password
+  //Check the user in the database using email if already exists return email already exists
+  // If email not exist then we can create a new user
+  //Need to hash password before saving into the database
+  // If all good then Return [200] Success status code and return user object if all good
+  //Otherwise return relevant error and status code
+
   try {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {

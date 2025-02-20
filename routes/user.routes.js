@@ -1,6 +1,7 @@
 import express from "express";
-import { login, register } from "../controllers/user.controller.js";
+import { login, logout, register } from "../controllers/user.controller.js";
 import { body } from "express-validator";
+import { verifyUserToken } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
@@ -16,6 +17,8 @@ router.post(
   ],
   login
 );
+
+router.post("/logout", verifyUserToken, logout);
 
 router.post(
   "/register",
