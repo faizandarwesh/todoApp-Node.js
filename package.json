@@ -4,7 +4,11 @@
   "description": "Todo App Basic API's using Node.js",
   "type": "module",
   "main": "index.js",
+  "engines": {
+    "node" : "20.x"
+  },
   "scripts": {
+    "start" : "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -r dotenv/config --experimental-json-modules index.js"
   },
