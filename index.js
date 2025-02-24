@@ -29,5 +29,9 @@ databaseConnection()
 import todoRoutes from "./routes/todo.routes.js"
 import userRoutes from "./routes/user.routes.js";
 
+
+app.get('/',(req,res)=> {
+   res.send("Hello from the vercel"); 
+});
 app.use('/api/todo',todoRoutes);
 app.use('/api/users',userRoutes);
