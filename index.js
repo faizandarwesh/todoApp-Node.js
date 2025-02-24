@@ -15,14 +15,14 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-// databaseConnection()
-// .then(()=>{
-//     app.listen(process.env.PORT || 3000,()=> {
-//         console.log(`App is listening to port : ${process.env.PORT}`);
-//     });
-// }).catch((error)=>{
-//     console.log(`Mongo DB connection failed : ${error}`);
-// })
+databaseConnection()
+.then(()=>{
+    app.listen(process.env.PORT || 3000,()=> {
+        console.log(`App is listening to port : ${process.env.PORT}`);
+    });
+}).catch((error)=>{
+    console.log(`Mongo DB connection failed : ${error}`);
+})
 
 //Import Routes
 
@@ -35,9 +35,3 @@ app.get('/',(req,res)=> {
 });
 app.use('/api/todo',todoRoutes);
 app.use('/api/users',userRoutes);
-
-// Export app instead of using app.listen()
-export default async (req, res) => {
-    await databaseConnection();
-    return app(req, res);
-};
