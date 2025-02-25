@@ -4,6 +4,9 @@
   "description": "Todo App Basic API's using Node.js",
   "type": "module",
   "main": "index.js",
+  "engines": {
+  "node": "^18"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node -r dotenv/config --experimental-json-modules index.js --omit=dev",
