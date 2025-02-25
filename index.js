@@ -15,18 +15,14 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-// databaseConnection()
-// .then(()=>{
-//     app.listen(process.env.PORT || 8000,"0.0.0.0",()=> {
-//         console.log(`App is listening to port : ${process.env.PORT}`);
-//     });
-// }).catch((error)=>{
-//     console.log(`Mongo DB connection failed    : ${error}`);
-// })
-
-app.listen(process.env.PORT || 8000, () => {
-  console.log(`App is listening to port : ${process.env.PORT}`);
-});
+databaseConnection()
+.then(()=>{
+    app.listen(process.env.PORT || 8000,()=> {
+        console.log(`App is listening to port : ${process.env.PORT}`);
+    });
+}).catch((error)=>{
+    console.log(`Mongo DB connection failed    : ${error}`);
+})
 
 //Import Routes
 
@@ -35,7 +31,7 @@ import userRoutes from "./routes/user.routes.js";
 
 
 app.get('/',(req,res)=> {
-   res.send("Hello from the vercel"); 
+   res.send("Hello from the railway"); 
 });
 app.use('/api/todo',todoRoutes);
 app.use('/api/users',userRoutes);
