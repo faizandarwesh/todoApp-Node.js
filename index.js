@@ -21,7 +21,7 @@ databaseConnection()
         console.log(`App is listening to port : ${process.env.PORT}`);
     });
 }).catch((error)=>{
-    console.log(`Mongo DB connection failed  : ${error}`);
+    console.log(`Mongo DB connection failed    : ${error}`);
 })
 
 //Import Routes
