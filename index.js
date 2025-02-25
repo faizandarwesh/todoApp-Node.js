@@ -15,19 +15,14 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.listen(process.env.PORT || 8000,()=> {
-    console.log(`App is listening to port : ${process.env.PORT}`);
-    databaseConnection();
-});
-
-// databaseConnection()
-// .then(()=>{
-//     app.listen(process.env.PORT || 8000,()=> {
-//         console.log(`App is listening to port : ${process.env.PORT}`);
-//     });
-// }).catch((error)=>{
-//     console.log(`Mongo DB connection failed    : ${error}`);
-// })
+databaseConnection()
+.then(()=>{
+    app.listen(process.env.PORT || 8000,()=> {
+        console.log(`App is listening to port : ${process.env.PORT}`);
+    });
+}).catch((error)=>{
+    console.log(`Mongo DB connection failed    : ${error}`);
+})
 
 //Import Routes
 
