@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 databaseConnection()
 .then(()=>{
-    app.listen(process.env.PORT || 8000,()=> {
+    app.listen(process.env.PORT || 8000,"0.0.0.0",()=> {
         console.log(`App is listening to port : ${process.env.PORT}`);
     });
 }).catch((error)=>{
