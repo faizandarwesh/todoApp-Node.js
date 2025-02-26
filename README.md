@@ -1,5 +1,3 @@
-
-
 # 📝 Todo API - Node.js Learning Project  
 
 A simple **REST API** for managing todos, built with **Node.js, Express, and MongoDB Atlas**.  
@@ -11,8 +9,8 @@ A simple **REST API** for managing todos, built with **Node.js, Express, and Mon
 ✅ Update a todo  
 ✅ Delete a todo  
 ✅ Delete all todos  
-✅ **User authentication (JWT, Refresh Token, Cookies)**  
-✅ **Login & Register APIs**  
+✅ User authentication (JWT, Refresh Token, Cookies)  
+✅ Login & Register APIs  
 
 ## 🛠 Tech Stack  
 - **Node.js** + **Express.js** (Routing & API)  
@@ -22,6 +20,13 @@ A simple **REST API** for managing todos, built with **Node.js, Express, and Mon
 - **cookie-parser** (Storing refresh token)  
 - **dotenv** (Environment variables)  
 - **cors** (Middleware for CORS handling)  
+
+## 🌍 Deployment  
+I successfully deployed my first backend project on **Railway** 🚀. You can check out the live API here:  
+
+🔗 **Live API:** *https://todoapp-nodejs-production.up.railway.app/*  
+
+I also explored **Render**, which was a good experience, but it required credit card information for deployment. I attempted to deploy on **Vercel**, but it required some code-level changes, so I left it midway.  
 
 ## 📌 Installation & Setup  
 
